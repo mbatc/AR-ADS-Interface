@@ -36,7 +36,7 @@ This project is an application that runs on the Microsoft HoloLens and has the f
 
    ![alt text](Docs/img/clone-project.png "Clone Project")
 
-2. Once you have a local copy, you can now open the project in Unity using Unity Hub. Do this by opening Unity Hub and clicking `Add`, as pictured below.
+2. Once you have a local copy, you can now open the project in Unity using Unity Hub. Do this by opening Unity Hub and clicking `Add`, shown below.
    ![alt text](Docs/img/add-project.png  "Logo Title Text 1")
 
 3. Open the project in Unity 2019.4.23f1
@@ -45,14 +45,14 @@ This project is an application that runs on the Microsoft HoloLens and has the f
 
 > Before deploying the app, the HoloLens must be in Developer Mode. To enable Developer Mode, follow this [guide](https://docs.microsoft.com/en-us/windows/mixed-reality/develop/platform-capabilities-and-apis/using-visual-studio?tabs=hl2).
 
-1. Open the `Build Settings` window using `File -> Build Settings` in the menu bar.
+1. Open the `Build Settings` window using `File -> Build Settings` in the menu bar.  
    ![alt text](Docs/img/build-file-build-settings.png "Open Build Settings")
-2. Click `Build` and choose a suitable location to build the project to. This will generate a Visual Studio 2019 Solution file.
+2. Click `Build` and choose a suitable location to build the project to. This will generate a Visual Studio 2019 Solution file.  
    ![alt text](Docs/img/build-project.png "Build Project")
-3. Open the solution file in Visual Studio 2019.
+3. Open the solution file in Visual Studio 2019.  
 4. To configure the solution to be built for the HoloLens, in the configuration options toolbar, select `Release`,  
    ![alt text](Docs/img/config-release.png  "Switch to Release")  
     and `ARM64`  
-   ![alt text](Docs/img/config-arm64.png  "Switch to ARM64")
-5. Connect the HoloLens to your PC.
-6. Goto `Debug -> Start Without Debugging` to build and deploy the application to the HoloLens. 
+   ![alt text](Docs/img/config-ARM64.png  "Switch to ARM64")
+5. Connect the HoloLens to your PC.  
+6. Goto `Debug -> Start Without Debugging` to build and deploy the application to the HoloLens.  
