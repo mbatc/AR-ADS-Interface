@@ -41,6 +41,8 @@ This project is an application that runs on the Microsoft HoloLens and has the f
 
 3. Open the project in Unity 2019.4.23f1
 
+> It is better to place the project in a directory close to the root of your hard drive (e.g. `C:\dev\`). This is because there is a maximum path length on some Windows machines which can cause issues. 
+
 ## Build and Deploy the Project
 
 > Before deploying the app, the HoloLens must be in Developer Mode. To enable Developer Mode, follow this [guide](https://docs.microsoft.com/en-us/windows/mixed-reality/develop/platform-capabilities-and-apis/using-visual-studio?tabs=hl2).
