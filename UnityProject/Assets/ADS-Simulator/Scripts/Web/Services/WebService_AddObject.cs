@@ -20,14 +20,29 @@ public class WebService_AddObject : WebService
   public override void OnMessage(MessageEventArgs args)
   {
     if (!args.IsText)
+    {
+      Send("Bad Data");
       return; // This service only parses text commands
+    }
+
+    if (args.Data == "-list")
+    {
+      List<string> names = new List<string>();
+      foreach (var srcObj in SourceObjects)
+        names.Add(srcObj.Name);
+      Send(string.Join(", ", names));
+      return;
+    }
 
     string[] command = args.Data.Split();
     if (command.Length < 4)
+    {
+      Send("Not enough arguments. Please specify 'name' 'x' 'y' 'z'");
       return;
+    }
 
     GameObject newObject = null;
-    Vector3    pos       = new Vector3(0, 0, 0);
+    Vector3 pos = new Vector3(0, 0, 0);
 
     // Find the requested object
     foreach (var kvp in SourceObjects)
@@ -44,6 +59,13 @@ public class WebService_AddObject : WebService
 
     // Duplicate the object if it was found
     if (newObject != null)
+    {
       Instantiate(newObject, pos, Quaternion.identity);
+      Send("Success");
+    }
+    else
+    {
+      Send(string.Format("Unknown object name '{0}' (use -list to list the available objects)", command[0]));
+    }
   }
 }

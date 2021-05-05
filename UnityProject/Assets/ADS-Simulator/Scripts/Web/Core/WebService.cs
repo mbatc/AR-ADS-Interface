@@ -1,6 +1,7 @@
 ﻿using WebSocketSharp;
 using WebSocketSharp.Server;
 using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class WebService : MonoBehaviour
 {
@@ -24,12 +25,12 @@ public abstract class WebService : MonoBehaviour
     Debug.Log("Service Closed");
   }
 
-  public void Send(byte[] data) { SocketBehavior.Send(data); }
-  public void Send(string data) { SocketBehavior.Send(data); }
-  public void Send(System.IO.FileInfo file) { SocketBehavior.Send(file); }
+  public void Send(byte[] data) { SocketBehavior._Send(data); }
+  public void Send(string data) { SocketBehavior._Send(data); }
+  public void Send(System.IO.FileInfo file) { SocketBehavior._Send(file); }
 
-  public void SendAsync(byte[] data, System.Action<bool> onComplete) { SocketBehavior.SendAsync(data, onComplete); }
-  public void SendAsync(string data, System.Action<bool> onComplete) { SocketBehavior.SendAsync(data, onComplete); }
-  public void SendAsync(System.IO.FileInfo file, System.Action<bool> onComplete) { SocketBehavior.SendAsync(file, onComplete); }
-  public void SendAsync(System.IO.Stream stream, int length, System.Action<bool> onComplete) { SocketBehavior.SendAsync(stream, length, onComplete); }
+  public void SendAsync(byte[] data, System.Action<bool> onComplete) { SocketBehavior._SendAsync(data, onComplete); }
+  public void SendAsync(string data, System.Action<bool> onComplete) { SocketBehavior._SendAsync(data, onComplete); }
+  public void SendAsync(System.IO.FileInfo file, System.Action<bool> onComplete) { SocketBehavior._SendAsync(file, onComplete); }
+  public void SendAsync(System.IO.Stream stream, int length, System.Action<bool> onComplete) { SocketBehavior._SendAsync(stream, length, onComplete); }
 }

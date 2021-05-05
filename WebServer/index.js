@@ -1,20 +1,27 @@
 const WebSocket = require('ws');
 const prompt  = require('prompt');
 
-const ws = new WebSocket('ws://localhost:32919/add-cube')
+const ws = new WebSocket('ws://192.168.0.51:1234/addcube')
 
-ws.on('message', () => {
-  console.log(err.data);
+function do_prompt() {
+  prompt.get(['command'], (err, result) => {
+    msg = result.command;
+    console.log("Sending:\n%o", msg);
+    ws.send(msg)
+    do_prompt()
+  });
+}
+
+ws.on('message', (msg) => {
+  console.log("Received:\n%o", msg);
 });
 
+ws.on('open', () => {
+  do_prompt()
+})
+
 ws.on("error", (err) => {
-  console.log(err);
-  console.log(err.stack);
+  console.log("Error:\n%o", err);
 });
 
 prompt.start();
-
-prompt.get(['name', 'x', 'y', 'z'], (err, result) => {
-  msg = result.name + ' ' + result.x + ' ' + result.y + ' ' + result.z;
-  ws.send(msg)
-});
