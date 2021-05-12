@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const prompt  = require('prompt');
 
-const ws = new WebSocket('ws://192.168.0.51:1234/addcube')
+const ws = new WebSocket('ws://localhost:1234/animations')
 
 function do_prompt() {
   prompt.get(['command'], (err, result) => {
