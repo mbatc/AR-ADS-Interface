@@ -11,10 +11,6 @@ public abstract class WebClientService : MonoBehaviour
   private WebSocket ws       = null;
   private Queue<WebSocketSharp.MessageEventArgs> m_messageQueue = new Queue<MessageEventArgs>();
 
-  void Start()
-  {
-  }
-
   void Update()
   {
     while (IsMessageAvailable())
