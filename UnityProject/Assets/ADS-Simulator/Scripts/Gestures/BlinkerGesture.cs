@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlinkerGesture
-  : MonoBehaviour
-  , IGesture
+public class BlinkerGesture : GestureComponent
 {
   private bool  isActive       = false;
   private float blinkStartTime = 0.0f;
@@ -15,20 +13,16 @@ public class BlinkerGesture
   public float DefaultFrequency = 2.0f;   // 2Hz
   public GameObject Target = null; // The gameobject to 'blink'
 
-  // Start is called before the first frame update
-  void Start() { Activate(-1.0f, -1.0f); }
-
   // Update is called once per frame
   void Update()
   {
     if (!isActive)
       return;
 
-
     float activeTime = Time.time - blinkStartTime;
     if (activeTime >= blinkDuration)
     {
-      Deactivate();
+      StopGesture();
     }
     else
     {
@@ -38,7 +32,7 @@ public class BlinkerGesture
     }
   }
 
-  public void Activate(params object[] args)
+  public override void StartGesture(params object[] args)
   {
     float duration  = (float)args[0];
     float frequency = (float)args[1];
@@ -48,14 +42,14 @@ public class BlinkerGesture
     blinkDuration  = duration < 0 ? DefaultDuration : duration;
     isActive = true;
   }
-  public void Deactivate()
+  public override void StopGesture()
   {
     if (Target != null)
       Target.SetActive(false);
     isActive = false;
   }
 
-  public System.Type[] GetParameterTypes()
+  public override System.Type[] GetGestureParameterTypes()
   {
     return new System.Type[]{ typeof(float), typeof(float) };
   }

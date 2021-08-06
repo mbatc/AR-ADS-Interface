@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class WebService_Gesture : WebService
 {
-  public GameObject GestureList;
-
   public void HandleMessage(string message)
   {
     string[] args = message.Split(null);
@@ -20,21 +18,26 @@ public class WebService_Gesture : WebService
     {
       if (gestureName != "")
       {
-        Transform gestureTransform = GestureList.transform.Find(gestureName);
-        IGesture gesture = gestureTransform.GetComponent<IGesture>();
+        GestureComponent gesture = null;
+        foreach (GestureComponent candidate in transform.GetComponentsInChildren<GestureComponent>())
+          if (candidate.GestureName == gestureName)
+          {
+            gesture = candidate;
+            break;
+          }
 
         if (gesture != null)
         {
-          System.Type[] gestureParamTypes = gesture.GetParameterTypes();
+          System.Type[] gestureParamTypes = gesture.GetGestureParameterTypes();
           object[] gestureParams = new object[gestureParamTypes.Length];
 
           for (int i = 0; i < gestureParams.Length; ++i)
             gestureParams[i] = ParseParameter(args, 2 + i, gestureParamTypes[i], null);
 
           if (command == "start")
-            gesture.Activate(gestureParams);
+            gesture.StartGesture(gestureParams);
           else if (command == "stop")
-            gesture.Deactivate();
+            gesture.StopGesture();
         }
       }
     }
@@ -69,6 +72,7 @@ public class WebService_Gesture : WebService
     }
     catch (System.Exception e)
     {
+      Debug.Log("Failed to parse gesture parameter: " + e.Message);
     }
 
     return defaultValue;

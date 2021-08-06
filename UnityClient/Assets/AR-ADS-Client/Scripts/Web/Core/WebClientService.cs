@@ -42,11 +42,28 @@ public abstract class WebClientService : MonoBehaviour
 
   public void Connect()
   {
-    ws = new WebSocket(string.Format("ws://{0}:{1}/{2}", m_client.ServerIP, m_client.ServerPort, ServiceName));
+    string url = string.Format("ws://{0}:{1}/{2}", m_client.ServerIP, m_client.ServerPort, ServiceName);
+    Debug.Log("Connecting to " + url);
+    ws = new WebSocket(url);
 
     ws.OnMessage += (sender, e) =>
     {
       m_messageQueue.Enqueue(e);
+    };
+
+    ws.OnOpen += (sender, e) =>
+    {
+      Debug.Log("Opened " + url);
+    };
+
+    ws.OnClose += (sender, e) =>
+    {
+      Debug.Log("Closed " + url);
+    };
+
+    ws.OnError += (sender, e) =>
+    {
+      Debug.Log("Error " + url);
     };
 
     ws.Connect();

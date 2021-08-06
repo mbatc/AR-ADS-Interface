@@ -8,13 +8,12 @@ public class WebClient : MonoBehaviour
   public string ServerIP = "localhost";
   public ushort ServerPort = 8080;
 
-  public List<WebClientService> Services;
-
   // Start is called before the first frame update
   void Start()
   {
-    foreach (WebClientService service in Services)
+    foreach (WebClientService service in transform.GetComponentsInChildren<WebClientService>())
     {
+      Debug.Log("Connecting Service " + service.ServiceName);
       service.SetClient(this);
       service.Connect();
     }
