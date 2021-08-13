@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class WebClientService : MonoBehaviour
 {
   public string ServiceName; // The name of the service to connect to
-
+  public bool IsConnected = false;
   private WebClient m_client = null;
   private WebSocket ws       = null;
   private Queue<WebSocketSharp.MessageEventArgs> m_messageQueue = new Queue<MessageEventArgs>();
@@ -67,20 +67,24 @@ public abstract class WebClientService : MonoBehaviour
     };
 
     ws.Connect();
+    IsConnected = true;
   }
 
   public void Send(string message)
   {
-    ws.Send(message);
+    if (IsConnected)
+      ws.Send(message);
   }
 
   public void Send(byte[] data)
   {
-    ws.Send(data);
+    if (IsConnected)
+      ws.Send(data);
   }
 
   public void Send(System.IO.FileInfo file)
   {
-    ws.Send(file);
+    if (IsConnected)
+      ws.Send(file);
   }
 }

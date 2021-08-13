@@ -7,8 +7,6 @@ public class GestureService : WebClientService
   public string StartCommand = "start";
   public string StopCommand = "stop";
 
-  public string BlinkName = "Blink_Indicator";
-
   string GetStartCommand(params object[] args)
   {
     return StartCommand + " " + string.Join(" ", args);
@@ -19,14 +17,14 @@ public class GestureService : WebClientService
     return StopCommand + " " + string.Join(" ", args);
   }
 
-  public void ActivateBlinker(float duration = -1, float frequency = -1)
+  public void ActivateGesture(string name, params object[] args)
   {
-    Send(GetStartCommand(BlinkName, duration, frequency));
+    Send(GetStartCommand(name, args));
   }
 
-  public void DeactivateBlinker()
+  public void DeactivateGesture(string name, params object[] args)
   {
-    Send(GetStopCommand(BlinkName));
+    Send(GetStopCommand(name, args));
   }
 
   public override void HandleMessage(WebSocketSharp.MessageEventArgs messageData)
