@@ -34,8 +34,8 @@ public class BlinkerGesture : GestureComponent
 
   public override void StartGesture(params object[] args)
   {
-    float duration  = (float)args[0];
-    float frequency = (float)args[1];
+    float duration = -1; // (float)args[0];
+    float frequency = -1; //  (float)args[1];
 
     blinkStartTime = Time.time;
     blinkFreq      = frequency < 0 ? DefaultFrequency : frequency;
