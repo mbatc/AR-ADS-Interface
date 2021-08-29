@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Newtonsoft.Json.Linq;
+using Util;
 
 public class GestureComponent : MonoBehaviour
 {
@@ -8,13 +8,10 @@ public class GestureComponent : MonoBehaviour
   // This is the name that the web service expects to be used in a message.
   public string GestureName;
 
-  // Return an array describing what type is expected for each parameter
-  public virtual System.Type[] GetGestureParameterTypes() { return new System.Type[0]; }
-
   // Activate the gesture.
   // Parameters accepted are determined by the sub-class.
-  public virtual void StartGesture(params object[] args) {}
+  public virtual void StartGesture(JSONObject args) {}
 
   // Deactivate the gesture
-  public virtual void StopGesture() {}
+  public virtual void StopGesture(JSONObject args) {}
 }

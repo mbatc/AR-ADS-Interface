@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using WebSocketSharp;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using Util;
 
 public class WebService_AddObject : WebService
 {
@@ -17,15 +18,10 @@ public class WebService_AddObject : WebService
   // Would like to use a dictionary here, but unity can't serialize it
   public List<SrcObjectDef> SourceObjects;
 
-  public override void OnMessage(MessageEventArgs args)
+  public override void OnMessage(JSONObject packet)
   {
-    if (!args.IsText)
-    {
-      Send("Bad Data");
-      return; // This service only parses text commands
-    }
-
-    if (args.Data == "-list")
+    string objectName = packet["object"].AsString();
+    if (objectName == "list")
     {
       List<string> names = new List<string>();
       foreach (var srcObj in SourceObjects)
@@ -34,38 +30,38 @@ public class WebService_AddObject : WebService
       return;
     }
 
-    string[] command = args.Data.Split();
-    if (command.Length < 4)
-    {
-      Send("Not enough arguments. Please specify 'name' 'x' 'y' 'z'");
-      return;
-    }
-
     GameObject newObject = null;
-    Vector3 pos = new Vector3(0, 0, 0);
+    
+    Vector3 objectPos = new Vector3();
+    Vector3 objectRot = new Vector3();
+
+    objectPos.x = packet["position"][0].As<float>(0.0f);
+    objectPos.y = packet["position"][1].As<float>(0.0f);
+    objectPos.z = packet["position"][2].As<float>(0.0f);
+
+    objectRot.x = packet["rotation"][0].As<float>(0.0f);
+    objectRot.y = packet["rotation"][1].As<float>(0.0f);
+    objectRot.z = packet["rotation"][2].As<float>(0.0f);
 
     // Find the requested object
     foreach (var kvp in SourceObjects)
     {
-      if (kvp.Name != command[0])
+      if (kvp.Name != objectName)
         continue;
 
       newObject = kvp.SourceObject;
-      float.TryParse(command[1], out pos.x);
-      float.TryParse(command[2], out pos.y);
-      float.TryParse(command[3], out pos.z);
       break;
     }
 
     // Duplicate the object if it was found
     if (newObject != null)
     {
-      Instantiate(newObject, pos, Quaternion.identity);
+      Instantiate(newObject, objectPos, Quaternion.Euler(objectRot));
       Send("Success");
     }
     else
     {
-      Send(string.Format("Unknown object name '{0}' (use -list to list the available objects)", command[0]));
+      Send(string.Format("Unknown object name '{0}' (use -list to list the available objects)", objectName[0]));
     }
   }
 }

@@ -1,7 +1,6 @@
 ﻿using WebSocketSharp;
-using WebSocketSharp.Server;
 using UnityEngine;
-using System.Collections.Generic;
+using Util;
 
 // This is the base class used for defining a WebService.
 // The WebServer forwards events from WebSocketSharp to components of this type.
@@ -16,10 +15,16 @@ public abstract class WebService : MonoBehaviour
   }
 
   // Called when a message is received
-  public virtual void OnMessage(MessageEventArgs args) {}
+  public virtual void OnMessage(JSONObject packet) { /*No default behaviour*/ }
+  
+  // Called when a binary message is received
+  public virtual void OnData(byte[] bytes) { /*No default behaviour*/ }
 
   // Called when an error occurs
-  public virtual void OnError(ErrorEventArgs args) {}
+  public virtual void OnError(string message, System.Exception exception)
+  {
+    Debug.Log("Exception occurred in a WebService: " + exception);
+  }
 
   // Called when the connection is closed
   public virtual void OnClose(CloseEventArgs args)

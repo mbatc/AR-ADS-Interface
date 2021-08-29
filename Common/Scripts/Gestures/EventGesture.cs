@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
+using Util;
 
 public class EventGesture : GestureComponent
 {
@@ -20,17 +18,12 @@ public class EventGesture : GestureComponent
         
   }
 
-  public override System.Type[] GetGestureParameterTypes()
-  {
-    return new System.Type[0];
-  }
-
-  public override void StartGesture(params object[] args)
+  public override void StartGesture(JSONObject args)
   {
     OnStartGesture.Invoke();
   }
 
-  public override void StopGesture()
+  public override void StopGesture(JSONObject args)
   {
     OnStopGesture.Invoke();
   }

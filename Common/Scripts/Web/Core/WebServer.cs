@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using WebSocketSharp;
 using WebSocketSharp.Server;
+using Util;
 
 public class WebServer : MonoBehaviour
 {
@@ -97,8 +97,6 @@ public class WebServer : MonoBehaviour
   // to a unity game object specified.
   public class WebServiceWrapper : WebSocketBehavior
   {
-    private Transform serviceParent   = null; // Where to place the new service in the scene hierarchy
-    private Transform serviceTemplate = null; // The prefab that implements the service
     private Transform serviceObject   = null; // The game object associated with the service
     private WebService webService     = null; // The script that implements the service
     private WebServer  webServer      = null; // The parent server for this web service
@@ -148,7 +146,7 @@ public class WebServer : MonoBehaviour
 
     protected override void OnOpen()
     {
-      // Wait until our webservice has been created
+      // Wait until our web service has been created
       while (webService == null)
       {
         Thread.Sleep(1);
@@ -182,14 +180,27 @@ public class WebServer : MonoBehaviour
     {
       // Queue the OnError event to be called.
       if (webService != null)
-        webServer.TaskQueue.Enqueue(() => webService.OnError(e));
+        webServer.TaskQueue.Enqueue(() => webService.OnError(e.Message, e.Exception));
     }
 
     protected override void OnMessage(WebSocketSharp.MessageEventArgs e)
     {
       // Queue the OnMessage event to be called.
       if (webService != null)
-        webServer.TaskQueue.Enqueue(() => webService.OnMessage(e));
+      {
+        if (e.IsText)
+        { // Parse the data as a JSON object
+          JSONObject json = new JSONObject(e.Data);
+          webServer.TaskQueue.Enqueue(() => {
+            Debug.Log(e.Data);
+            webService.OnMessage(json);
+          });
+        }
+        else if (e.IsBinary)
+        { // Process the raw binary data
+          webServer.TaskQueue.Enqueue(() => webService.OnData(e.RawData));
+        }
+      }
     }
   }
 }

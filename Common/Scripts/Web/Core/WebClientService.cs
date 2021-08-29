@@ -1,15 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WebSocketSharp;
 using UnityEngine;
+using Newtonsoft.Json.Linq;
+using Util;
 
 public abstract class WebClientService : MonoBehaviour
 {
   public string ServiceName; // The name of the service to connect to
-  public bool IsConnected = false;
+  public bool IsConnected    = false;
   private WebClient m_client = null;
   private WebSocket ws       = null;
-  private Queue<WebSocketSharp.MessageEventArgs> m_messageQueue = new Queue<MessageEventArgs>();
+  private Queue<MessageEventArgs> m_messageQueue = new Queue<MessageEventArgs>();
 
   void Update()
   {
@@ -20,20 +21,24 @@ public abstract class WebClientService : MonoBehaviour
   private bool IsMessageAvailable()
   {
     int messageCount = 0;
+
     lock (m_messageQueue)
       messageCount = m_messageQueue.Count;
+
     return messageCount > 0;
   }
 
   private void HandleNextMessage()
   {
-    WebSocketSharp.MessageEventArgs message = null;
+    MessageEventArgs message = null;
+    
     lock (m_messageQueue)
       message = m_messageQueue.Dequeue();
-    HandleMessage(message);
+
+    HandleMessage(JObject.Parse(message.Data));
   }
 
-  public abstract void HandleMessage(WebSocketSharp.MessageEventArgs messageData);
+  public abstract void HandleMessage(JObject messageData);
 
   public void SetClient(WebClient client)
   {
@@ -70,10 +75,10 @@ public abstract class WebClientService : MonoBehaviour
     IsConnected = true;
   }
 
-  public void Send(string message)
+  public void Send(JSONObject message)
   {
     if (IsConnected)
-      ws.Send(message);
+      ws.Send(message.ToJSON());
   }
 
   public void Send(byte[] data)

@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class GestureManager : MonoBehaviour
 {
+  struct BlinkData
+  {
+    public BlinkData(float dur, float freq)
+    {
+      duration = dur;
+      frequency = freq;
+    }
+
+    public float duration;
+    public float frequency;
+  }
+
   public GestureService Service;
   public string TurnLeftGesture;
   public string TurnRightGesture;
@@ -12,41 +24,41 @@ public class GestureManager : MonoBehaviour
 
   public void beginTurnLeft()
   {
-    Service.ActivateGesture(TurnLeftGesture);
+    Service.ActivateGesture(TurnLeftGesture, new BlinkData(-1, -1));
   }
 
   public void endTurnLeft()
   {
-    Service.DeactivateGesture(TurnLeftGesture);
+    Service.DeactivateGesture(TurnLeftGesture, new BlinkData(-1, -1));
   }
 
   public void beginTurnRight()
   {
-    Service.ActivateGesture(TurnRightGesture);
+    Service.ActivateGesture(TurnRightGesture, new BlinkData(-1, -1));
   }
 
   public void endTurnRight()
   {
-    Service.DeactivateGesture(TurnRightGesture);
+    Service.DeactivateGesture(TurnRightGesture, new BlinkData(-1, -1));
   }
 
   public void beginStart()
   {
-    Service.ActivateGesture(StartGesture);
+    Service.ActivateGesture(StartGesture, new BlinkData(-1, -1));
   }
 
   public void endStart()
   {
-    Service.DeactivateGesture(StartGesture);
+    Service.DeactivateGesture(StartGesture, new BlinkData(-1, -1));
   }
 
   public void beginStop()
   {
-    Service.ActivateGesture(StopGesture);
+    Service.ActivateGesture(StopGesture, new BlinkData(-1, -1));
   }
 
   public void endStop()
   {
-    Service.DeactivateGesture(StopGesture);
+    Service.DeactivateGesture(StopGesture, new BlinkData(-1, -1));
   }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Newtonsoft.Json.Linq;
+using Util;
 
 public class BlinkerGesture : GestureComponent
 {
@@ -22,7 +22,7 @@ public class BlinkerGesture : GestureComponent
     float activeTime = Time.time - blinkStartTime;
     if (activeTime >= blinkDuration)
     {
-      StopGesture();
+      StopGesture(JSONObject.Null);
     }
     else
     {
@@ -32,25 +32,20 @@ public class BlinkerGesture : GestureComponent
     }
   }
 
-  public override void StartGesture(params object[] args)
+  public override void StartGesture(JSONObject args)
   {
-    float duration = -1; // (float)args[0];
-    float frequency = -1; //  (float)args[1];
+    float duration  = args["duration"].As<float>(-1);
+    float frequency = args["frequency"].As<float>(-1);
 
     blinkStartTime = Time.time;
     blinkFreq      = frequency < 0 ? DefaultFrequency : frequency;
     blinkDuration  = duration < 0 ? DefaultDuration : duration;
     isActive = true;
   }
-  public override void StopGesture()
+  public override void StopGesture(JSONObject args)
   {
     if (Target != null)
       Target.SetActive(false);
     isActive = false;
-  }
-
-  public override System.Type[] GetGestureParameterTypes()
-  {
-    return new System.Type[]{ typeof(float), typeof(float) };
   }
 }

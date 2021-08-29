@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using WebSocketSharp;
+using Util;
 
 public class WebService_AnimationController : WebService
 {
@@ -31,85 +30,71 @@ public class WebService_AnimationController : WebService
     return names;
   }
 
-  public override void OnMessage(MessageEventArgs args)
+  public override void OnMessage(JSONObject packet)
   {
-    string[] parts = args.Data.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+    string command = packet["command"].AsString();
+    string target  = packet["target"].AsString();
+    string animID  = packet["animID"].AsString();
+    Animation anim = FindTarget(target);
 
-    if (parts.Length == 0)
-    {
-      Send("Please send a command");
-      return;
-    }
-
-    Animation anim = null;
-    switch (parts[0])
+    switch (command)
     {
       case "list_targets":
-        Send(string.Join(", ", GetTargetNames()));
+        {
+          Send(string.Join(", ", GetTargetNames()));
+        }
         break;
+
       case "list_anims":
-        if (parts.Length != 2)
         {
-          Send("Play expects 1 argument.");
-          return;
-        }
+          if (anim == null)
+          {
+            Send(string.Format("Target '{0}' does not exist."));
+            return;
+          }
 
-        anim = FindTarget(parts[1]);
-        if (anim == null)
-        {
-          Send(string.Format("Target '{0}' does not exist."));
-          return;
+          Send(string.Join(", ", GetClipNames(anim)));
         }
-
-        Send(string.Join(", ", GetClipNames(anim)));
         break;
+
       case "play":
-        if (parts.Length != 3)
         {
-          Send("Play expects 2 arguments");
-          return;
+          if (anim == null)
+          {
+            Send(string.Format("Target '{0}' does not exist.", target));
+            return;
+          }
+
+          anim.Stop();
+          if (GetClipNames(anim).Contains(animID))
+          {
+            anim.Play(animID);
+            Send("Success");
+          }
+          else
+          {
+            Send(string.Format("The animation clip {0} does not exist.", animID));
+          }
         }
+        break;
 
-        anim = FindTarget(parts[1]);
-
-        if (anim == null)
+      case "stop":
         {
-          Send(string.Format("Target '{0}' does not exist.", parts[1]));
-          return;
-        }
+          if (anim == null)
+          {
+            Send(string.Format("Target '{0}' does not exist."));
+            return;
+          }
 
-        anim.Stop();
-        if (GetClipNames(anim).Contains(parts[2]))
-        {
-          anim.Play(parts[2]);
+          anim.Stop();
           Send("Success");
         }
-        else
-        {
-          Send(string.Format("The animation clip {0} does not exist.", parts[2]));
-        }
-
         break;
-      case "stop":
-        if (parts.Length != 2)
-        {
-          Send("Play expects 1 argument.");
-          return;
-        }
 
-        anim = FindTarget(parts[1]);
-
-        if (anim == null)
-        {
-          Send(string.Format("Target '{0}' does not exist."));
-          return;
-        }
-
-        anim.Stop();
-        Send("Success");
-        break;
       default:
-        Send(string.Format("Unknown command '{0}'", parts[0]));
+        {
+          Send(string.Format("Unknown command '{0}'", command));
+        }
         break;
     }
   }
