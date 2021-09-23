@@ -3,7 +3,37 @@ guid: 8d6498b35e19d75489b15ced00348819
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Matte__FF1E1E1E__spec_
+    second: {fileID: 2100000, guid: 6a7421024d3d5e74bb1e6fae7b2aab17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: a4_tex
+    second: {fileID: 2100000, guid: 61507a797e18d0c488c895be780cf2a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: chrome
+    second: {fileID: 2100000, guid: 02f809279faea50488ee71402c1dc956, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: paint
+    second: {fileID: 2100000, guid: 3433cdf133cb0944b84163a1c21f32e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vehiclelights__spec_
+    second: {fileID: 2100000, guid: 75957e23088b30a4baaa9b5ef80668c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: window glass
+    second: {fileID: 2100000, guid: ef4fe8884016b1441968060147d89b07, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
