@@ -24,23 +24,5 @@ public class GestureActivator : MonoBehaviour
   // next call to Update, the activator will be disabled again.
   public void ReEnable() { m_disable = false; }
 
-  // Update is called once per frame
-  void Update()
-  {
-    if (m_disable)
-      return;
-
-    GestureController controller = Controller;
-    if (controller == null)
-    { // If no controller is attached to this GameObject, disable this activator
-      m_disable = true;
-    }
-    else
-    { // If a controller is attached, activate the controller when IsGestureActive returns true
-      if (IsGestureActive())
-        Controller.Activate();
-      else
-        Controller.Deactivate();
-    }
-  }
+  public bool IsDisabled() { return m_disable; }
 }

@@ -1,30 +1,27 @@
 ﻿using UnityEngine.Events;
 using Util;
 
+[System.Serializable]
+public class GestureEvent : UnityEvent<JSONObject> {}
+
 public class EventGesture : GestureComponent
 {
-  public UnityEvent OnStartGesture;
-  public UnityEvent OnStopGesture;
-
-  // Start is called before the first frame update
-  void Start()
-  {
-        
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-        
-  }
+  public GestureEvent OnStartGesture;
+  public GestureEvent OnStopGesture;
+  public GestureEvent OnUpdateGesture;
 
   public override void ActivateGesture(JSONObject args)
   {
-    OnStartGesture.Invoke();
+    OnStartGesture.Invoke(args);
   }
 
   public override void DeactivateGesture(JSONObject args)
   {
-    OnStopGesture.Invoke();
+    OnStopGesture.Invoke(args);
+  }
+
+  public override void UpdateGesture(JSONObject args)
+  {
+    OnStopGesture.Invoke(args);
   }
 }

@@ -23,18 +23,6 @@ public class GestureController : MonoBehaviour
   public virtual object GetDeactivateParameters() { return null; }
   public virtual object GetUpdateParameters()     { return null; }
 
-  // Activate this gesture
-  public void Activate()
-  {
-    m_isGestureActive = true;
-  }
-
-  // Deactivate this gesture
-  public void Deactivate()
-  {
-    m_isGestureActive = false;
-  }
-
   // Send an Update command on the next scene update
   public void SendUpdate()
   {
@@ -55,10 +43,27 @@ public class GestureController : MonoBehaviour
     return s_gestureClientService;
   }
 
+  bool IsGestureActive()
+  {
+    int  count    = 0;
+    bool isActive = true;
+    foreach (GestureActivator activator in GetComponents<GestureActivator>())
+    {
+      ++count;
+      isActive &= activator.IsGestureActive();
+      if (!isActive)
+        break;
+    }
+
+    return isActive && count > 0;
+  }
+
   // Update is called once per frame
   void Update()
   {
-    if (Time.time - m_lastUpdateTime > 1.0f / UpdateFrequency)
+    m_isGestureActive = IsGestureActive();
+
+    if (m_isGestureActive && Time.time - m_lastUpdateTime > 1.0f / UpdateFrequency)
       SendUpdate();
 
     WebClientService_Gestures service = GetGestureService();
@@ -78,6 +83,7 @@ public class GestureController : MonoBehaviour
     {
       service.UpdateGesture(GestureName, GetUpdateParameters());
       m_lastUpdateTime = Time.time;
+      m_sendUpdate     = false;
     }
 
     if (!m_isGestureActive && m_lastGestureActive)
