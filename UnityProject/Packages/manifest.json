@@ -1,6 +1,7 @@
 {
     "dependencies": {
     "com.ptc.vuforia.engine": "file:com.ptc.vuforia.engine-10.1.4.tgz",
+    "com.carrsq.ar-interface-tools": "file:../../Common",
     "com.microsoft.mixedreality.toolkit.foundation": "file:MixedReality/com.microsoft.mixedreality.toolkit.foundation-2.6.1.tgz",
     "com.microsoft.mixedreality.toolkit.standardassets": "file:MixedReality/com.microsoft.mixedreality.toolkit.standardassets-2.6.1.tgz",
     "com.unity.collab-proxy": "1.2.16",

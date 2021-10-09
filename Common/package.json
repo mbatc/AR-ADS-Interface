@@ -1,0 +1,11 @@
+{
+  "name": "com.carrsq.ar-interface-tools",
+  "displayName": "CARRS-Q AR ADS Interface Tools",
+  "version": "0.0.1",
+  "unity": "2019.4",
+  "description": "This package provides some common tools for developing an Augmented Reality interface for automated driving research.",
+  "keywords": [],
+  "category": "XR",
+  "dependencies": {
+  }
+}
