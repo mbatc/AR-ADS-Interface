@@ -14,7 +14,7 @@ public class GestureActivatorCompound : GestureActivator
     if (FindActivatorsInChildren)
     {
       Activators.Clear();
-      for (int childIndex = 0; childIndex < transform.GetChildCount(); ++childIndex)
+      for (int childIndex = 0; childIndex < transform.childCount; ++childIndex)
       {
         GestureActivator childActivator = transform.GetChild(childIndex).GetComponent<GestureActivator>();
         if (childActivator != null) // If an activator was found, add it to the list

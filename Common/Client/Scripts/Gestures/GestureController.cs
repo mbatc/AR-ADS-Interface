@@ -73,6 +73,9 @@ public class GestureController : MonoBehaviour
       return;
     }
 
+    if (Input.GetKeyDown(KeyCode.L))
+        service.ActivateGesture("turn_left", GetActivateParameters());
+
     if (m_isGestureActive && !m_lastGestureActive)
     {
       service.ActivateGesture(GestureName, GetActivateParameters());
