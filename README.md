@@ -27,6 +27,7 @@ This project is an application that runs on the Microsoft HoloLens and has the f
    Install the following Platforms:
    * Universal Windows Platform Build Support
    * Windows Build Support (IL2CPP)
+5. [Leap Motion Tracking Software](https://developer.leapmotion.com/tracking-software-download)
 
 # Getting Started
 
